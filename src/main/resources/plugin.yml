@@ -1,0 +1,49 @@
+name: MiniEssentials
+version: '${project.version}'
+main: me.bobsmiley.miniessentials.MiniEssentials
+api-version: 1.19
+load: STARTUP
+loadbefore: [ Vault ]
+authors: [ BoBsmil3Y ]
+description: A mini version of the EssentialsX spigot plugin.
+commands:
+  repair:
+    description: Repair the item hold in hand.
+    usage: /<command>
+    default: op
+    permission: mini.repair
+  teleport:
+    description: Repair the item hold in hand.
+    usage: /<command> <player>
+    default: op
+    aliases: [ tp ]
+    permission: mini.teleport
+  clearinventory:
+    description: Clear your inventory.
+    usage: /<command> [<player>]
+    aliases: [ ci ]
+    permission: mini.clearinventory
+  weather:
+    description: Allow player to change weather.
+    usage: /<command> <weather_state>
+    permission: mini.weather
+  playtime:
+    description: Send playtime of the player.
+    usage: /<command>
+    permission: mini.playtime
+  night:
+    description: Set the night.
+    usage: /<command>
+    permission: mini.time
+  day:
+    description: Set the day.
+    usage: /<command>
+    permission: mini.time
+  list:
+    description: List all the player online.
+    usage: /<command>
+    permission: mini.list
+  speed:
+    description: Set the walk or fly speed of the player depending on his status.
+    usage: /<command>
+    permission: mini.speed
