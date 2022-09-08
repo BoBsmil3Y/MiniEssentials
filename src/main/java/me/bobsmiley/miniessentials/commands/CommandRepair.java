@@ -18,6 +18,12 @@ public class CommandRepair implements CommandExecutor {
         if(UtilitiesCommand.checkHasNotPermission(p, "mini.repair")) return true;
 
         ItemStack item = p.getInventory().getItemInMainHand();
+
+        if(item == null) {
+            p.sendMessage("You must have an item in your hand to do that.");
+            return true;
+        }
+
         ItemMeta meta = item.getItemMeta();
 
         if(meta instanceof org.bukkit.inventory.meta.Damageable){
@@ -28,6 +34,8 @@ public class CommandRepair implements CommandExecutor {
             item.setItemMeta(dMeta);
 
             p.getInventory().setItemInMainHand(item);
+        } else {
+            p.sendMessage("An error occurred while getting the item's meta.");
         }
 
         return true;

@@ -20,7 +20,7 @@ public class CommandSpeed implements CommandExecutor {
             return true;
         }
 
-        final int speed = Integer.parseInt(args[0]);
+        float speed = Float.parseFloat(args[0]);
 
         if(speed < 0 || speed > 10){
             p.sendMessage("Speed has to be a whole number between 1 and 10.");

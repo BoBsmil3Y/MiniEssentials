@@ -16,7 +16,7 @@ public class CommandNight implements CommandExecutor {
 
         if(UtilitiesCommand.checkHasNotPermission(p, "mini.time")) return true;
 
-        p.getWorld().setTime(12000);
+        p.getWorld().setTime(13000);
 
         return true;
     }
