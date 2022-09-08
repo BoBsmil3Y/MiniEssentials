@@ -47,3 +47,7 @@ commands:
     description: Set the walk or fly speed of the player depending on his status.
     usage: /<command>
     permission: mini.speed
+  panic:
+    description: Command that will save your server from hackers.
+    usage: /<command>
+    permission: mini.panic

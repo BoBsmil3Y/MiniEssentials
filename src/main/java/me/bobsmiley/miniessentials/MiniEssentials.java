@@ -23,7 +23,7 @@ public final class MiniEssentials extends JavaPlugin {
         this.getCommand("playtime").setExecutor(new CommandPlaytime(server));
         this.getCommand("list").setExecutor(new CommandList(server));
 
-
+        this.getCommand("panic").setExecutor(new CommandPanic(server));
         //getServer().getPluginManager().registerEvent(new ManageChatAndCommandListener(), this);
 
     }
