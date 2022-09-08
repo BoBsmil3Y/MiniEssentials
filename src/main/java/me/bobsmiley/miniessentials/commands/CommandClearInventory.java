@@ -29,11 +29,10 @@ public class CommandClearInventory implements CommandExecutor {
         Player p = (Player) sender;
 
         if(args.length == 1){
-            if(! p.hasPermission("mini.clearinventory.other")){
-                p.sendMessage("You do not have permission to do that.");
-                return true;
-            }
+            if(UtilitiesCommand.checkHasNotPermission(p, "mini.clearinventory.other")) return true;
+
             Player target = Bukkit.getPlayer(args[0]);
+
             if(target == null){
                 p.sendMessage("Target not found.");
                 return true;
@@ -41,17 +40,11 @@ public class CommandClearInventory implements CommandExecutor {
             p = target;
         }
 
-        Collection<Player> players = (Collection<Player>) this.server.getOnlinePlayers();
+        p.getInventory().setContents(new ItemStack[p.getInventory().getSize()]);
+        p.updateInventory();
 
-        for (Player player : players) {
-            if(player.equals(p)){
-                p.getInventory().setContents(new ItemStack[p.getInventory().getSize()]);
-                p.updateInventory();
-                return true;
-            }
-        }
+        return true;
 
-        return false;
     }
 
 }

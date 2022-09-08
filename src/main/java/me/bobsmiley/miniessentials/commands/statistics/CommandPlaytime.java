@@ -6,18 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
+import java.util.Date;
+
 
 public class CommandPlaytime implements CommandExecutor {
-
-    private Server server;
-
-     public CommandPlaytime(Server s){
-         this.server = s;
-     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -28,14 +21,28 @@ public class CommandPlaytime implements CommandExecutor {
 
         if(UtilitiesCommand.checkHasNotPermission(p, "mini.playtime")) return true;
 
-        p.sendMessage("Ping : " + p.getPing());
-        p.sendMessage("Exp : " + p.getExp());
-        p.sendMessage("Level : " + p.getLevel());
-        p.sendMessage("ExpToLevel : " + p.getExpToLevel());
-        p.sendMessage("First played : " + p.getFirstPlayed());
-        p.sendMessage("Death : " + p.getStatistic(Statistic.DEATHS));
-        p.sendMessage("Craft : " + p.getStatistic(Statistic.CRAFT_ITEM, Material.ACACIA_DOOR));
-        p.sendMessage("Temps : " + p.getStatistic(Statistic.PLAY_ONE_MINUTE) / (20 * 60) + "s.");
+        String message = "";
+
+        message += "&7Your statistics &8----------"
+                + "\n  &8» &7Ping &8: &a" + p.getPing()
+                + "\n  &8» &7Exp levels &8: &a" + Integer.toString(p.getLevel())
+                + "\n  &8» &7Exp to next level &8: &a";
+
+
+        int exp = Math.round(p.getExpToLevel() * 1.5f / 10);
+
+        for(int i = 0; i < exp; i++)
+            message += ChatColor.GREEN + "■";
+
+        for(int i = 0; i < (15-exp); i++)
+            message += ChatColor.GRAY + "■";
+
+        message += "\n  &8» &7First played &8: &a" + (new Date (p.getFirstPlayed()) )
+                + "\n  &8» &7Death &8: &a" + p.getStatistic(Statistic.DEATHS)
+                + "\n  &8» &7Mob kill &8: &a" + p.getStatistic(Statistic.MOB_KILLS)
+                + "\n  &8» &7Time played &8: &a" + p.getStatistic(Statistic.PLAY_ONE_MINUTE) / (20) + "s";
+
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 
         return true;
     }

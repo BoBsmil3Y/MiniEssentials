@@ -13,16 +13,21 @@ public final class MiniEssentials extends JavaPlugin {
     public void onEnable() {
         Server server = this.getServer();
 
+        // Time related command
+        this.getCommand("day").setExecutor(new CommandDay());
+        this.getCommand("night").setExecutor(new CommandNight());
+
+        // Player related command
         this.getCommand("repair").setExecutor(new CommandRepair());
         this.getCommand("teleport").setExecutor(new CommandTeleport(server));
         this.getCommand("clearinventory").setExecutor(new CommandClearInventory(server));
-        this.getCommand("weather").setExecutor(new CommandWeather());
         this.getCommand("speed").setExecutor(new CommandSpeed());
-        this.getCommand("day").setExecutor(new CommandDay());
-        this.getCommand("night").setExecutor(new CommandNight());
-        this.getCommand("playtime").setExecutor(new CommandPlaytime(server));
-        this.getCommand("list").setExecutor(new CommandList(server));
+        this.getCommand("playtime").setExecutor(new CommandPlaytime());
 
+
+        // Server related commands
+        this.getCommand("weather").setExecutor(new CommandWeather());
+        this.getCommand("list").setExecutor(new CommandList(server));
 
         //getServer().getPluginManager().registerEvent(new ManageChatAndCommandListener(), this);
 

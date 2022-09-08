@@ -22,7 +22,7 @@ public class CommandList implements CommandExecutor {
         if(! (sender instanceof ConsoleCommandSender))
             if(UtilitiesCommand.checkHasNotPermission((Player) sender, "mini.list")) return true;
 
-        String list = "List of onlines : \n";
+        String list = "List of online players : \n";
 
         Collection<Player> players = (Collection<Player>) this.server.getOnlinePlayers();
 
