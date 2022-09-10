@@ -1,8 +1,12 @@
 package me.bobsmiley.miniessentials.commands;
 
 import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.bobsmiley.miniessentials.utils.DiscordHook;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
@@ -10,12 +14,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class CommandPanic implements CommandExecutor {
 
+    private final int shutdownWaitSeconds = 5;
     private final Server server;
     private final Logger logger;
+
 
     public CommandPanic(Server s) {this.server = s; this.logger = s.getLogger();}
 
@@ -28,17 +39,22 @@ public class CommandPanic implements CommandExecutor {
 
         if(UtilitiesCommand.checkHasNotPermission(p, "mini.panic")) return true;
 
+
         this.server.broadcastMessage("Server is shutting down du to abnormal player behaviour. " +
                 "It will be back when an admin will be connected. Stay informed on our discord !");
 
-        // Send UUID, name, of player that executed command
-        String message = "Information " + p.getDisplayName() + " that executed the panic command"
+        this.server.setWhitelist(true);
+
+        // Log UUID, name of player that executed command
+        String message = "Information of" + p.getDisplayName() + " taht executed the panic command"
                         + "\n  &8» &7UUID :" + p.getUniqueId()
                         + "\n  &8» &7Name :" + p.getName()
                         + "\n  &7---------- :";
 
-        Player target = null;
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        df.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 
+        Player target;
         // Send UUID, name, ip, other info, time played, first connected
         for(int i = 0; i < args.length; i++){
 
@@ -52,47 +68,44 @@ public class CommandPanic implements CommandExecutor {
                         + "\n  &8» &7Name &8:&7 " + target.getName()
                         + "\n  &8» &7IP &8:&7 " + target.getAddress().getAddress().getHostAddress()
                         + "\n  &8» &7Time played &8:&7 " + target.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20
-                        + "\n  &8» &7First connected on &8:&7 " + target.getFirstPlayed()
+                        + "\n  &8» &7First connected on &8:&7 " + df.format(new Date(target.getFirstPlayed()))
                         + "\n  &7---------- :";
 
                 String address = target.getAddress().getAddress().getHostAddress();
                 if(address != null) this.server.banIP(address);
-                else sender.sendMessage(target.getName() + " was not ban causing ");
+                else sender.sendMessage(target.getName() + " was not ban du to unknown address.");
             }
 
         }
 
-        this.server.setWhitelist(true);
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 
         WebhookClient hook = new DiscordHook().buildHook();
-        // Set a wait timeout of 5 seconds with message between second
-        // send a mail
-        //TODO
+        WebhookEmbed embed = new WebhookEmbedBuilder()
+                .setColor(0xe74c3c) //red
+                .setTitle(new WebhookEmbed.EmbedTitle("⚠️ Panic command has been trigger ⚠️", null))
+                .setDescription(message.replaceAll("&[0-9A-F]", ""))
+                .setFooter(new WebhookEmbed.EmbedFooter(df.format(new Date()), null))
+                .build();
 
-        // WEBHOOK : https://discord.com/api/webhooks/1017381265521004545/vDrgGyh67rEFF6e-7bcD4bJsBxRy7ZEVsZ6clfO7hKki3Efs3-_bcqnGVfvMjObhzbx-
-        // Send and forget
-        hook.send("Hello World");
-        p.sendMessage(message);
+        hook.send(embed)
+                .thenAccept((mess) -> System.out.printf("Message with embed has been sent [%s]%n", mess.getId()));
 
-//// Send and log (using embed)
-//        WebhookEmbed embed = new WebhookEmbedBuilder()
-//                .setColor(0xFF00EE)
-//                .setDescription("Hello World")
-//                .build();
-//
-//        client.send(embed)
-//                .thenAccept((message) -> System.out.printf("Message with embed has been sent [%s]%n", message.getId()));
-//
-//// Change appearance of webhook message
-//        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-//        builder.setUsername("Minn"); // use this username
-//        builder.setAvatarUrl(avatarUrl); // use this avatar
-//        builder.setContent("Hello World");
-//        client.send(builder.build());
+        new Thread(() -> {
+            for(int i = 0; i < shutdownWaitSeconds; i++){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                    server.broadcastMessage("Server will shutdown in "
+                            + (shutdownWaitSeconds-i) + "seconds.");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            server.shutdown();
+        }).start();
+        //thread.start();
 
-        //this.server.shutdown();
-
-
-        return false;
+        return true;
     }
+
 }
