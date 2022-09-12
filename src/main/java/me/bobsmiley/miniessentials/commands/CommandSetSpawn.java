@@ -19,6 +19,7 @@ public class CommandSetSpawn implements CommandExecutor {
         Player p = (Player) sender;
 
         p.getWorld().setSpawnLocation(p.getLocation());
+
         // Change in config if the world is not the same as the config one
         // if(! p.getWorld().getName().equals(CONFIG.WORLD){ //write in config }
 

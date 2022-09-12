@@ -24,7 +24,7 @@ public class CommandSpawn implements CommandExecutor {
 
         List<World> worlds = this.server.getWorlds();
         for(World w : worlds){
-            if(w.getName().equals("world")) continue; // Get from config
+            if(! w.getName().equals("world")) continue; // Get from config
             p.teleport(w.getSpawnLocation());
         }
 
