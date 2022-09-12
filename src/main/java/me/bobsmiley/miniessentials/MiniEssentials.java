@@ -28,6 +28,8 @@ public final class MiniEssentials extends JavaPlugin {
         this.getCommand("enderchest").setExecutor(new CommandEnderchest());
         this.getCommand("spawn").setExecutor(new CommandSpawn(this.server));
         this.getCommand("setspawn").setExecutor(new CommandSetSpawn());
+        this.getCommand("feed").setExecutor(new CommandFeed());
+        this.getCommand("heal").setExecutor(new CommandHeal());
 
         // Server related commands
         this.getCommand("list").setExecutor(new CommandList(this.server));

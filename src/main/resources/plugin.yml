@@ -51,17 +51,32 @@ commands:
     description: Command that will save your server from hackers.
     usage: /<command>
     permission: mini.panic
-  craft:
+  workbench:
     description: Open a workbench.
     usage: /<command>
     permission: mini.workbench
-    aliases: [ wb ]
+    aliases: [ wb, craft ]
   enderchest:
     description: Open player's enderchest.
     usage: /<command>
     permission: mini.enderchest
     aliases: [ ec ]
-  serverInfo:
-    description: Show the server's hardware information.
+  heal:
+    description: Heal the player to max heartish level.
+    usage: /<command>
+    permission: mini.heal
+  feed:
+    description: Feed the player to max foodish level.
+    usage: /<command>
+    permission: mini.feed
+  serverinfo:
+    description: Send hardware information of your server.
     usage: /<command>
     permission: mini.serverinfo
+  spawn:
+    description: Teleport the player to the server spawn.
+    usage: /<command>
+  setspawn:
+    description: Set the spawn point of the server to this location.
+    usage: /<command>
+    permission: mini.setspawn
