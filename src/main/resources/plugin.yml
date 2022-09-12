@@ -51,3 +51,13 @@ commands:
     description: Command that will save your server from hackers.
     usage: /<command>
     permission: mini.panic
+  craft:
+    description: Open a workbench.
+    usage: /<command>
+    permission: mini.workbench
+    aliases: [ wb ]
+  enderchest:
+    description: Open player's enderchest.
+    usage: /<command>
+    permission: mini.enderchest
+    aliases: [ ec ]

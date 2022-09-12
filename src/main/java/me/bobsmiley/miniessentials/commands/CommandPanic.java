@@ -67,6 +67,8 @@ public class CommandPanic implements CommandExecutor {
         WebhookClient hook = new DiscordHook().buildHook();
         // Set a wait timeout of 5 seconds with message between second
         // send a mail
+
+        // If player == pseudo1 ... banip sender
         //TODO
 
         // WEBHOOK : https://discord.com/api/webhooks/1017381265521004545/vDrgGyh67rEFF6e-7bcD4bJsBxRy7ZEVsZ6clfO7hKki3Efs3-_bcqnGVfvMjObhzbx-
