@@ -1,6 +1,5 @@
 package me.bobsmiley.miniessentials.commands;
 
-import me.bobsmiley.miniessentials.utils.WaitClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -8,10 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.TimerTask;
 
 public class CommandTeleport implements CommandExecutor {
 
@@ -44,8 +39,7 @@ public class CommandTeleport implements CommandExecutor {
 
         Location loc = target.getLocation();
         if(target.isFlying()){
-            p.setInvulnerable(true);
-            new WaitClass(p).run();
+             //TODO
         }
         p.teleport(loc);
         p.sendMessage("Teleportation done.");

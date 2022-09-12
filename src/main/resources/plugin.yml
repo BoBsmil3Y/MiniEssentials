@@ -61,3 +61,7 @@ commands:
     usage: /<command>
     permission: mini.enderchest
     aliases: [ ec ]
+  serverInfo:
+    description: Show the server's hardware information.
+    usage: /<command>
+    permission: mini.serverinfo
