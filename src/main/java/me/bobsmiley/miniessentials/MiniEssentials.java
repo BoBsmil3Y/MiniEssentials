@@ -5,13 +5,18 @@ import me.bobsmiley.miniessentials.commands.statistics.CommandPlaytime;
 import me.bobsmiley.miniessentials.commands.time.CommandDay;
 import me.bobsmiley.miniessentials.commands.time.CommandNight;
 import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MiniEssentials extends JavaPlugin {
 
     final Server server = this.getServer();
+    FileConfiguration config = this.getConfig();
+
     @Override
     public void onEnable() {
+
+        this.saveDefaultConfig();
 
         // Time related command
         this.getCommand("day").setExecutor(new CommandDay());
@@ -26,8 +31,8 @@ public final class MiniEssentials extends JavaPlugin {
         this.getCommand("panic").setExecutor(new CommandPanic(this.server));
         this.getCommand("workbench").setExecutor(new CommandWorkbench());
         this.getCommand("enderchest").setExecutor(new CommandEnderchest());
-        this.getCommand("spawn").setExecutor(new CommandSpawn(this.server));
-        this.getCommand("setspawn").setExecutor(new CommandSetSpawn());
+        this.getCommand("spawn").setExecutor(new CommandSpawn(this.config));
+        this.getCommand("setspawn").setExecutor(new CommandSetSpawn(this));
         this.getCommand("feed").setExecutor(new CommandFeed());
         this.getCommand("heal").setExecutor(new CommandHeal());
 
@@ -35,6 +40,7 @@ public final class MiniEssentials extends JavaPlugin {
         this.getCommand("list").setExecutor(new CommandList(this.server));
         this.getCommand("panic").setExecutor(new CommandPanic(server));
         this.getCommand("serverinfo").setExecutor(new CommandServerInfo());
+        this.getCommand("mreload").setExecutor(new CommandReload(this));
 
 
         // Server related commands
@@ -48,4 +54,5 @@ public final class MiniEssentials extends JavaPlugin {
     public void onDisable() {
 
     }
+
 }

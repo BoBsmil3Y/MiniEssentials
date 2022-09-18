@@ -80,3 +80,8 @@ commands:
     description: Set the spawn point of the server to this location.
     usage: /<command>
     permission: mini.setspawn
+  mreload:
+    description: Set the spawn point of the server to this location.
+    usage: /<command>
+    default: op
+    permission: mini.reload
