@@ -1,10 +1,12 @@
 package me.bobsmiley.miniessentials.commands;
 
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,9 +14,9 @@ import java.util.List;
 
 public class CommandSpawn implements CommandExecutor {
 
-    final private Server server;
+    final private FileConfiguration config;
 
-    public CommandSpawn(Server s) { this.server = s; }
+    public CommandSpawn(FileConfiguration c) { this.config = c; }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -22,11 +24,17 @@ public class CommandSpawn implements CommandExecutor {
         if(UtilitiesCommand.checkIfConsole(sender)) return true;
         Player p = (Player) sender;
 
-        List<World> worlds = this.server.getWorlds();
-        for(World w : worlds){
-            if(! w.getName().equals("world")) continue; // Get from config
-            p.teleport(w.getSpawnLocation());
+        Object loc = this.config.get("spawnpoint");
+        if(loc == null) {
+            p.sendMessage("No spawn has been set");
+        }else {
+            if(loc instanceof Location){
+                p.teleport((Location) loc);
+            }else {
+                p.sendMessage("Not a loc");
+            }
         }
+        //REnvoi que c'est null alors que non
 
         return true;
     }
