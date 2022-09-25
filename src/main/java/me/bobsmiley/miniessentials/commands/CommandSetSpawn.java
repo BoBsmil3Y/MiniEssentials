@@ -1,5 +1,6 @@
 package me.bobsmiley.miniessentials.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -25,9 +26,12 @@ public class CommandSetSpawn implements CommandExecutor {
 
         if(UtilitiesCommand.checkIfConsole(sender)) return true;
         Player p = (Player) sender;
+        if(UtilitiesCommand.checkHasNotPermission(p, "mini.setspawn")) return true;
 
         this.config.set("spawnpoint", p.getLocation());
         this.plugin.saveConfig();
+
+        p.sendMessage(ChatColor.GRAY + "The spawn" + ChatColor.GREEN + " has been set" + ChatColor.GRAY + " to your location.");
 
         return true;
     }
